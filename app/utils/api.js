@@ -15,6 +15,12 @@ function getProfile(username) {
 function getRepos(username) {
 	return axios.get('https://api.github.com/users/' + username + '/repos?&per_page=100')
 }
+
+function getStarCount (repos) {
+	return repos.data.reduce((count, repo) => {
+		return count + repo.stargazers_count;
+	}, 0);
+}
 module.exports = {
 	battle: function(players) {
 

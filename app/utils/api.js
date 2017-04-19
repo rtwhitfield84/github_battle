@@ -34,7 +34,7 @@ function handleError (error) {
 	return null;
 }
 
-function getUserData () {
+function getUserData (player) {
 	return axios.all([
 		getProfile(player),
 		getRepos(player)

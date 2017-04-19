@@ -28,8 +28,38 @@ function calculateScore (profile, repos) {
 
 	return (followers * 3) + totalStars;
 }
+
+function handleError (error) {
+	console.warn(error);
+	return null;
+}
+
+function getUserData () {
+	return axios.all([
+		getProfile(player),
+		getRepos(player)
+	]).then((data) => {
+		var profile = data[0];
+		var repos = data[1];
+
+		return {
+			profile: profile,
+			score: calculateScore(profile, repos)
+		}
+	});
+}
+
+function sortPlayers (players) {
+	return players.sort((a,b) => {
+		return b.score - a.score;
+	});
+}
+
 module.exports = {
 	battle: function(players) {
+		return axios.all(players.map(getUserData))
+		.then(sortPlayers)
+		.catch(handleError)
 
 	},
 	fetchPopularRepos: function(language) {
@@ -42,3 +72,6 @@ module.exports = {
 		})
 	}
 }
+
+
+

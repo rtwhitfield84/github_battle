@@ -16,6 +16,28 @@ class Loading extends React.Component {
 			text: props.text
 		};
 	}
+
+	componentDidMount() {
+		var stopper = this.props.text + '...';
+		this.interval = window.setInterval(() => {
+			if (this.state.text === stopper) {
+				this.setState(() => {
+					return {
+						text: this.props.text
+					}
+				})
+			} else {
+				this.setState((prevState) => {
+					return {
+						text: prevState.text + '.'
+					}
+				})
+			}
+		}, this.props.speed)
+	}
+	componentWillUnmount(){
+		window.clearInterval(this.interval);
+	}
 	render() {
 		return (
 			<p style={styles.content}>
@@ -25,11 +47,14 @@ class Loading extends React.Component {
 	}
 }
 
+
 Loading.propTypes = {
-	text: PropTypes.string.isRequired
+	text: PropTypes.string.isRequired,
+	speed: PropTypes.number.isRequired,
 }
 
 Loading.defaultProps = {
-	text: 'Fetching'
+	text: 'Fetching',
+	speed: 150,
 }
 module.exports = Loading;

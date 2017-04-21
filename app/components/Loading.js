@@ -9,6 +9,13 @@ var styles = {
 }
 
 class Loading extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			text: props.text
+		};
+	}
 	render() {
 		return (
 			<p style={styles.content}>
@@ -18,4 +25,11 @@ class Loading extends React.Component {
 	}
 }
 
+Loading.propTypes = {
+	text: PropTypes.string.isRequired
+}
+
+Loading.defaultProps = {
+	text: 'Fetching'
+}
 module.exports = Loading;
